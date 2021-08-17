@@ -1,0 +1,10 @@
+pytest-shutil
+scipy
+numpy
+matplotlib
+pathlib
+pandas
+ruamel.yaml
+sklearn
+pyyaml
+opencv-python

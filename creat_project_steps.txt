@@ -1,0 +1,15 @@
+0- for new vids, if the videos for the training have the same name -> use 
+	CopyVideosFileToFolder
+	
+	it will change the names. 
+
+1. run CreateProjectRun 
+
+2. csv to numpy
+
+3.go to TrianRun - change the path of config + change num_features in the config 
+
+
+'C:/Users/Jackie.MEDICINE/Desktop/VAME-master/new_vi/10_1_17_new_JAABA/EPC_M26_2017-10-01_001/movie_combDLC_resnet50_ShatTOct22shuffle1_250000.csv'
+
+'C:/Users/Jackie.MEDICINE/Desktop/VAME-master/Projects/TEST_allData_imitialParameters-Nov11-2020/data/EPC_M26_2017-10-01_001/EPC_M26_2017-10-01_001-PE-seq.npy'
