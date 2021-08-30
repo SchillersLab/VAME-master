@@ -39,15 +39,15 @@ def change_video_names():
 
 
 if __name__ == "__main__":
-    projectName = 'AMIR_plan1'
-    workingDirectory = 'D:\AMIR_vame_projects'
-    experimant_name = 'Reach_6_08'
+    projectName = 'AMIR_plan2_OneHand_nonNormalized'
+    workingDirectory = 'F:\AMIR_VAME_projects'
+    experimant_name = 'Reach_28_08'
     #formatV = 'avi'
     #change_video_names()
     #videosList_raw = r'C:\Users\Jackie.MEDICINE\Desktop\VAME-master\new_vi\*\*\movie_comb.avi'
     
     #videosFileLocation = r'C:\Users\Jackie.MEDICINE\Desktop\VAME-master\vi\%s*.%s' % (experimant_name, formatV)
-    videosFileLocation = r'\\192.114.20.177\f\Amir_data_VAME_allAnimals\ALL_by_name'
+    videosFileLocation = r'F:\Amir_data_VAME_allAnimals\data_oneHand'
 
     videosList = glob.glob(videosFileLocation)
 

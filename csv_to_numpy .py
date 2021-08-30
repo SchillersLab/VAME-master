@@ -10,8 +10,8 @@ import pandas as pd
 import glob
 
 def runnerAllCSV():
-    folderCSVPAth = glob.glob(r"\\192.114.20.177\f\Amir_data_VAME_allAnimals\ALL_by_name\*.csv")
-    projectVEMAPath = r"D:\AMIR_vame_projects\AMIR_plan1-Aug6-2021\data"
+    folderCSVPAth = glob.glob(r"F:\Amir_data_VAME_allAnimals\data_oneHand\*.csv")
+    projectVEMAPath = r"F:\AMIR_VAME_projects\AMIR_plan2_OneHand_nonNormalized-Aug28-2021\data"
    
 
     selectCamera = 'L'
@@ -26,13 +26,13 @@ def runnerAllCSV():
          
         outputPath = '%s/%s/%s-PE-seq.npy' % (projectVEMAPath, experimant_name, experimant_name)
         outputPath = outputPath.replace("\\","/")
-        csv_to_numpy(file, outputPath, selectCamera, minmax_bool = 1, cut_frames = 0)
+        csv_to_numpy(file, outputPath, selectCamera, minmax_bool = 0, cut_frames = 1)
         print(str(i))
                 
         ##### FOR ALL FRAMES BACK FOR SEGMENTATION ######
         outputPath_2 = '%s/%s/%s-ALL_FRAMES-seq.npy' % (projectVEMAPath, experimant_name, experimant_name)
         outputPath_2 = outputPath_2.replace("\\","/")
-        csv_to_numpy(file, outputPath_2, selectCamera, minmax_bool = 1, cut_frames = 0)
+        csv_to_numpy(file, outputPath_2, selectCamera, minmax_bool = 0, cut_frames = 0)
         i = i +1
 
 
@@ -83,14 +83,14 @@ def csv_to_numpy(fileName, outputPath, selectCamera, minmax_bool = [0], cut_fram
         if i % 2 == 0:
             idx += 1
         seq = body_position[:, i]
-        seq[con_arr[idx, :] < .8] = np.NaN
+        seq[con_arr[idx, :] < .9] = np.NaN
         body_position_nan.append(seq)
 
     final_positions = np.array(body_position_nan)
     
     ##CANGE TO RELEVENT FRAMES FOR LEARNING####
     if cut_frames:
-        final_positions = final_positions[:, 600:1800]
+        final_positions = final_positions[:, 800:1500]
     
     # min_max transform for 0-1 range
     #minmax_tranform_positions = min_max(final_positions)
@@ -115,8 +115,8 @@ def min_max(final_positions):
                                
 def min_max_quantile(final_positions):
     
-    devider = np.nanquantile(final_positions, q = 0.98, axis = 1) - np.nanquantile(final_positions, q= 0.02, axis = 1)
-    uper = (final_positions.T - np.nanquantile(final_positions, q= 0.02, axis = 1))
+    devider = np.nanquantile(final_positions, q = 0.99, axis = 1) - np.nanquantile(final_positions, q= 0.01, axis = 1)
+    uper = (final_positions.T - np.nanquantile(final_positions, q= 0.01, axis = 1))
     minmax_tranform_positions = uper/devider
     minmax_tranform_positions = minmax_tranform_positions.T
     
