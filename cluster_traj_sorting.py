@@ -12,7 +12,7 @@ from pathlib import Path
 import matplotlib as mpl
 
 # load from yaml all the vids names and append to vec 
-config = r'I:\VAME_projects\19_4_plan10-Apr19-2021/config.yaml'
+config = r'F:\AMIR_VAME_projects\NoseCentering_oneCam_plan10-Sep14-2021\config.yaml'
 config_file = Path(config).resolve()
 cfg = read_config(config_file)
 files = []
@@ -43,17 +43,17 @@ drop_coor = cfg['time_window']*0.5 # the segmantation is running unil this point
 coor = []
 latent = []
 lables = []
-n_clusters = [30]
+n_clusters = [40]
 for cluster in n_clusters: 
     for file in files:
-        path_to_coor = cfg['project_path']+'data/'+file+'/'+file+'-ALL_FRAMES-seq.npy'
+        path_to_coor = cfg['project_path']+'data/'+file+'/'+file+'-PE-ALL-seq-clean.npy'
         path_to_label = cfg['project_path']+'results/'+file+'/VAME/'+ 'kmeans-%d'%(cluster) +'/'+'%d_km_label_%s.npy'%(cluster, file)
         path_to_latent = cfg['project_path']+'results/'+file+'/VAME/'+ 'kmeans-%d'%(cluster) +'/'+'latent_vector_%s.npy'%(file)
         
         coor_temp = np.load(path_to_coor)
         coor_temp = coor_temp.T
         # swich (0,0) down
-        coor_temp[:,1] = 1 - coor_temp[:,1] # 400
+        coor_temp[:,3] = 400 - coor_temp[:,3] # 400 or 1 
         
         labels_temp = np.load(path_to_label)
         latent_temp = np.load(path_to_latent)
@@ -84,7 +84,9 @@ colors = ['#696969', '#dcdcdc', "#228b22", "#7f0000", "#808000", "#483d8b",
           '#008b8b', '#cd853f', '#4682b4', '#9acd32', '#00008b', '#7f007f',
           '#8fbc8f', '#b03060', '#ff0000', '#ff8c00', '#ffff00', '#7fff00',
           '#00ff7f', '#dc143c', '#00ffff', '#0000ff', '#f08080', '#da70d6',
-          '#ff00ff', '#1e90ff', "#10e68c", '#90ee90', '#ff1493', '#7b68ee']
+          '#ff00ff', '#1e90ff', "#10e68c", '#90ee90', '#ff1493', '#7b68ee',
+          '#ff4081', '#cc2288', '#f0ffff', '#f8f8ff', '#72675c', '#29c876',
+          '#fff68f', '#E6E6FA', '#E0FFFF', '#FFB6C1', '#FF8247', '#C6E2FF']
 
 
 for cluster in n_clusters: # total number of clusters, if there are more than one group to check 
@@ -92,8 +94,8 @@ for cluster in n_clusters: # total number of clusters, if there are more than on
         fig, ax = plt.subplots()
         plt.ylabel('y hand center coordinate')
         plt.xlabel('x hand center coordinate')
-        plt.xlim([0,1]) # pay attention 400,800
-        plt.ylim([0,1]) # pay attention 0,400
+        plt.xlim([400,800]) # pay attention 400,800 and if normolized [0,1]
+        plt.ylim([0,400]) # pay attention 0,400 and if normolized [0,1]
         plt.title("animal trail: %s" %(files[trail]), fontsize = 10)
         
         for lable in range(cluster):
@@ -101,7 +103,7 @@ for cluster in n_clusters: # total number of clusters, if there are more than on
             bool_lable = lables[trail] == lable
             
             
-            ax.scatter(coor[trail][bool_lable,0], coor[trail][bool_lable,1], c = colors[lable], s = 8,
+            ax.scatter(coor[trail][bool_lable,2], coor[trail][bool_lable,3], c = colors[lable], s = 8,
                        label='%d motif' % lable, edgecolors = 'k', linewidth = 0.2)
            
             ax.legend(markerscale=2, fontsize=5)
